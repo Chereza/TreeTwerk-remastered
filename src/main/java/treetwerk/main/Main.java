@@ -6,19 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class main extends JavaPlugin {
-
-    private static main instance;
-
-    public static main getInstance()
-    {
-        return instance;
-    }    
-    
-    public String getDataFold() 
-    {
-    	return getDataFolder().toString();
-    }
+public class Main extends JavaPlugin {  
     
     private void registerCommands(String[] cmds, CommandExecutor cmdExecutor)
     {
@@ -28,19 +16,11 @@ public class main extends JavaPlugin {
         }
     }
 
-    @Override
-    public void onLoad() 
-    {
-        instance = this;
-        
-        treetwerk.main.ConfigFolder config = new treetwerk.main.ConfigFolder();
-        config.ReadFile();
-    } 
-
     public void onEnable()
     {        
-        Bukkit.getPluginManager().registerEvents(new treetwerk.events.Sneakevent(), this);
-        registerCommands(new String[]{ "TreeTwerk" }, new treetwerk.main.Commands());
+    	saveDefaultConfig();
+        Bukkit.getPluginManager().registerEvents(new treetwerk.events.Sneakevent(this), this);
+        registerCommands(new String[]{ "TreeTwerk" }, new treetwerk.main.Commands(this));
 
         
         getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabling!");

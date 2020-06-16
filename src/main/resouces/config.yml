@@ -1,0 +1,14 @@
+config:
+  RequiredTwerkCount: 10
+  RangeForShifting: 5
+  GrowingParticle: true
+Trees:
+  OakTree: true
+  SpruceTree: true
+  BirchTree: true
+  AcaciaTree: true
+  JungleTree: true
+  BigOakTree: false
+  DarkOakTree: false
+  RedMushroomTree: false
+  BrownMushroomTree: false
