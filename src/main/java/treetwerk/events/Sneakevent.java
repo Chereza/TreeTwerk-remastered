@@ -61,7 +61,7 @@ public class Sneakevent implements Listener {
 		ArrayList<Block> blocks = getNearbySaplings(e.getPlayer());
 
 		for (Block block : blocks) {
-			TreeType type = CheckTreeType(block);
+			TreeType type = getTreeType(block);
 
 			if (isTreeEnabled(block.getType()))
 				GrowTree(block, type, e.getPlayer());
@@ -89,31 +89,25 @@ public class Sneakevent implements Listener {
 
 	}
 
-	private TreeType CheckTreeType(Block block) {
-		TreeType type = null;
-
-		if (block.getType().equals(Material.OAK_SAPLING))
-			type = TreeType.TREE;
-
-		if (block.getType().equals(Material.SPRUCE_SAPLING))
-			type = TreeType.REDWOOD;
-
-		if (block.getType().equals(Material.JUNGLE_SAPLING))
-			type = TreeType.SMALL_JUNGLE;
-
-		if (block.getType().equals(Material.BIRCH_SAPLING))
-			type = TreeType.BIRCH;
-
-		if (block.getType().equals(Material.ACACIA_SAPLING))
-			type = TreeType.ACACIA;
-
-		if (block.getType().equals(Material.RED_MUSHROOM))
-			type = TreeType.RED_MUSHROOM;
-
-		if (block.getType().equals(Material.BROWN_MUSHROOM))
-			type = TreeType.BROWN_MUSHROOM;
-
-		return type;
+	private TreeType getTreeType(Block block) {
+		switch(block.getType()) {
+		case OAK_SAPLING:
+			return TreeType.TREE;
+		case SPRUCE_SAPLING:
+			return TreeType.REDWOOD;
+		case JUNGLE_SAPLING:
+			return TreeType.SMALL_JUNGLE;
+		case BIRCH_SAPLING:
+			return TreeType.BIRCH;
+		case ACACIA_SAPLING:
+			return TreeType.ACACIA;
+		case RED_MUSHROOM:
+			return TreeType.RED_MUSHROOM;
+		case BROWN_MUSHROOM:
+			return TreeType.BROWN_MUSHROOM;
+		default:
+				return null;
+		}
 	}
 	
 	private Material getSapling(TreeType treeType) {
