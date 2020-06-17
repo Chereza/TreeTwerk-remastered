@@ -1,13 +1,17 @@
+
 package treetwerk.events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.annotation.Nullable;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Tag;
 import org.bukkit.TreeType;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,10 +65,9 @@ public class Sneakevent implements Listener {
 		ArrayList<Block> blocks = getNearbySaplings(e.getPlayer());
 
 		for (Block block : blocks) {
-			TreeType type = getTreeType(block);
 
 			if (isTreeEnabled(block.getType()))
-				GrowTree(block, type, e.getPlayer());
+				GrowTree(block, e.getPlayer());
 
 		}
 
@@ -75,10 +78,10 @@ public class Sneakevent implements Listener {
 		int range = main.getConfig().getInt("config.RangeForShifting");
 		for (int x = player.getLocation().getBlockX() - range; x <= player.getLocation().getBlockX() + range; x++) {
 			for (int y = player.getLocation().getBlockY() - range; y <= player.getLocation().getBlockY() + range; y++) {
-				for (int z = player.getLocation().getBlockZ() - range; z <= player.getLocation().getBlockZ() + range; z++) {
+				for (int z = player.getLocation().getBlockZ() - range; z <= player.getLocation().getBlockZ()
+						+ range; z++) {
 					Block block = player.getWorld().getBlockAt(x, y, z);
-					if (Tag.SAPLINGS.isTagged(block.getType())
-							|| block.getType().equals(Material.BROWN_MUSHROOM)
+					if (Tag.SAPLINGS.isTagged(block.getType()) || block.getType().equals(Material.BROWN_MUSHROOM)
 							|| block.getType().equals(Material.RED_MUSHROOM)) {
 						saplings.add(block);
 					}
@@ -89,14 +92,14 @@ public class Sneakevent implements Listener {
 
 	}
 
-	private TreeType getTreeType(Block block) {
-		switch(block.getType()) {
+	private TreeType getTreeType(Block block, boolean isBigTree) {
+		switch (block.getType()) {
 		case OAK_SAPLING:
 			return TreeType.TREE;
 		case SPRUCE_SAPLING:
-			return TreeType.REDWOOD;
+			return isBigTree ? TreeType.MEGA_REDWOOD : TreeType.REDWOOD;
 		case JUNGLE_SAPLING:
-			return TreeType.SMALL_JUNGLE;
+			return isBigTree ? TreeType.JUNGLE : TreeType.SMALL_JUNGLE;
 		case BIRCH_SAPLING:
 			return TreeType.BIRCH;
 		case ACACIA_SAPLING:
@@ -106,17 +109,59 @@ public class Sneakevent implements Listener {
 		case BROWN_MUSHROOM:
 			return TreeType.BROWN_MUSHROOM;
 		default:
-				return null;
+			return null;
 		}
 	}
-	
+
+	@Nullable
+	private Block[] getBigTreeBlocks(Block block) {
+		// Only Jungle, Spruce and Dark Oak can be big trees
+		if(block.getType()!=Material.DARK_OAK_SAPLING
+				&& block.getType()!=Material.SPRUCE_SAPLING
+				&& block.getType()!=Material.JUNGLE_SAPLING) return null;
+		
+		Material mat = block.getType();
+
+		BlockFace[][] facesList = {
+				{ BlockFace.EAST, BlockFace.NORTH, BlockFace.NORTH_EAST },
+				{ BlockFace.EAST, BlockFace.SOUTH, BlockFace.SOUTH_EAST },
+				{ BlockFace.WEST, BlockFace.NORTH, BlockFace.NORTH_WEST },
+				{ BlockFace.WEST, BlockFace.SOUTH, BlockFace.SOUTH_WEST }
+		};
+		
+		BlockFace[] matchingFaces = null;
+
+		for (BlockFace[] faces : facesList) {
+			boolean isPartOfFourSaplings = true;
+			for (BlockFace face : faces) {
+				if (block.getRelative(face).getType() != mat) {
+					isPartOfFourSaplings = false;
+					break;
+				}
+			}
+			if (isPartOfFourSaplings) {
+				matchingFaces = faces;
+				break;
+			}
+		}
+		if(matchingFaces == null) return null;
+		
+		Block[] result = new Block[4];
+		result[0] = block;
+		for(int i = 1; i<4; i++) {
+			result[i] = block.getRelative(matchingFaces[i-1]);
+		}
+		return result;
+	}
+
 	private Material getSapling(TreeType treeType) {
-		switch(treeType) {
+		switch (treeType) {
 		case TREE:
 			return Material.OAK_SAPLING;
 		case ACACIA:
 			return Material.ACACIA_SAPLING;
 		case JUNGLE:
+		case SMALL_JUNGLE:
 			return Material.JUNGLE_SAPLING;
 		case BIRCH:
 			return Material.BIRCH_SAPLING;
@@ -124,29 +169,67 @@ public class Sneakevent implements Listener {
 			return Material.BROWN_MUSHROOM;
 		case RED_MUSHROOM:
 			return Material.RED_MUSHROOM;
-			default:
-				return null;
+		case REDWOOD:
+		case MEGA_REDWOOD:
+			return Material.SPRUCE_SAPLING;
+		default:
+			return null;
 		}
 	}
+	
+	// A big tree has to be spawned at the lowest X and lowest Z coordinates of the 4 saplings
+	private Block getRootOfBigTree(Block[] block) {
+		int x = block[0].getX();
+		int y = block[0].getY();
+		int z = block[0].getZ();
+		
+		for(int i = 1; i<4; i++) {
+			if(block[i].getX() < x) x = block[i].getX();
+			if(block[i].getY() < y) y = block[i].getY();
+		}
+		
+		return block[0].getWorld().getBlockAt(x, y, z);
+	}
 
-	private void GrowTree(Block block, TreeType type, Player player) {
+	private void GrowTree(Block block, Player player) {
 		if (!TwerkCount.containsKey(block)) {
 			TwerkCount.put(block, 0);
 		}
+		
 
 		int newtwerk = TwerkCount.get(block) + 1;
-		
 		if (newtwerk >= main.getConfig().getInt("config.RequiredTwerkCount")) {
-			block.setType(Material.AIR);
-			block.getWorld().generateTree(block.getLocation(), type);
+			
+			boolean isBigTree = (getBigTreeBlocks(block)!=null);
+			TreeType type = getTreeType(block, isBigTree);
+			Block[] bigTreeBlocks = getBigTreeBlocks(block);
+			
+			if(isBigTree) {
+				for(Block b : bigTreeBlocks) {
+					b.setType(Material.AIR);
+				}
+				block = getRootOfBigTree(bigTreeBlocks);
+			} else {
+				block.setType(Material.AIR);
+			}
+			
+			if(!isBigTree && type != TreeType.DARK_OAK) {
+				block.getWorld().generateTree(block.getLocation(), type);
+			}
 			TwerkCount.remove(block);
 
 			if (block.getType().equals(Material.AIR)) {
-				
+
 				Material material = getSapling(type);
-				
-				if(material!=null) {
-					block.setType(material);
+
+				if (material != null) {
+					if(isBigTree) {
+						for(Block b : bigTreeBlocks) {
+							b.setType(material);
+						}
+					} else {
+						block.setType(material);
+					}
 				}
 			}
 		} else {
