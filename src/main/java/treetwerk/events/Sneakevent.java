@@ -225,6 +225,13 @@ public class Sneakevent implements Listener {
 			TwerkCount.put(block, 0);
 		}
 		
+		if (main.getConfig().getBoolean("config.MushroomTreesOnlyOnMycelium")
+                && (block.getType().equals(Material.BROWN_MUSHROOM) || block.getType().equals(Material.RED_MUSHROOM))) 
+        {
+            boolean mycelium = checkForMycelium(block);
+            if (mycelium == false)
+                return;
+        }
 
 		int newtwerk = TwerkCount.get(block) + 1;
 		if (newtwerk >= main.getConfig().getInt("config.RequiredTwerkCount")) {
@@ -284,8 +291,16 @@ public class Sneakevent implements Listener {
 		}
 
 		if (main.getConfig().getBoolean("config.GrowingParticle")) {
-			player.spawnParticle(Particle.SPELL, block.getLocation(), 20, 1.2D, 0D, 1.2D);
+			player.spawnParticle(Particle.SPELL, block.getLocation(), 20, 1D, 0D, 1D);
 		}
 
+	}
+	
+	private Boolean checkForMycelium(Block block)
+	{
+		boolean check = false;
+		if (block.getRelative(BlockFace.DOWN).getType() == Material.MYCELIUM)
+			check = true;
+		return check;
 	}
 }

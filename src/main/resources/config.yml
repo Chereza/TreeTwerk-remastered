@@ -1,7 +1,8 @@
 config:
   RequiredTwerkCount: 10
   RangeForShifting: 5
-  GrowingParticle: true
+  GrowingParticle: true 
+  MushroomTreesOnlyOnMycelium: true
 Trees:
   OakTree: true
   SpruceTree: true
