@@ -27,22 +27,22 @@ public class Sneakevent implements Listener {
 		this.main = main;
 	}
 
-	private boolean isTreeEnabled(Material material) {
+	private boolean isTreeEnabled(TreeType type, boolean isBigTree) {
 
-		switch (material) {
-		case OAK_SAPLING:
+		switch (type) {
+		case TREE:
 			return main.getConfig().getBoolean("Trees.OakTree");
 
-		case SPRUCE_SAPLING:
+		case REDWOOD:
 			return main.getConfig().getBoolean("Trees.SpruceTree");
 
-		case JUNGLE_SAPLING:
-			return main.getConfig().getBoolean("Trees.JungleTree");
+		case JUNGLE:
+			return isBigTree ? main.getConfig().getBoolean("Trees.BigJungleTree") : main.getConfig().getBoolean("Trees.JungleTree");
 
-		case BIRCH_SAPLING:
+		case BIRCH:
 			return main.getConfig().getBoolean("Trees.BirchTree");
 
-		case ACACIA_SAPLING:
+		case ACACIA:
 			return main.getConfig().getBoolean("Trees.AcaciaTree");
 
 		case RED_MUSHROOM:
@@ -50,9 +50,32 @@ public class Sneakevent implements Listener {
 
 		case BROWN_MUSHROOM:
 			return main.getConfig().getBoolean("Trees.BrownMushroomTree");
+			
+		case BIG_TREE:
+			return main.getConfig().getBoolean("Trees.BigOakTree");
+			
+		case TALL_REDWOOD:
+			return main.getConfig().getBoolean("Trees.BigSpruceTree");
+			
+		case DARK_OAK:
+			return main.getConfig().getBoolean("Trees.DarkOakTree");
 
 		default:
 			return false;
+		}
+	}
+	
+	private TreeType bigToSmallTree(TreeType type) {
+		switch (type) {
+		case BIG_TREE:
+			return TreeType.TREE;
+		case TALL_REDWOOD:
+			return TreeType.REDWOOD;
+		case JUNGLE:
+			return TreeType.SMALL_JUNGLE;
+		case DARK_OAK:
+		default:
+			return null;
 		}
 	}
 
@@ -66,8 +89,7 @@ public class Sneakevent implements Listener {
 
 		for (Block block : blocks) {
 
-			if (isTreeEnabled(block.getType()))
-				GrowTree(block, e.getPlayer());
+			GrowTree(block, e.getPlayer());
 
 		}
 
@@ -97,7 +119,7 @@ public class Sneakevent implements Listener {
 		case OAK_SAPLING:
 			return TreeType.TREE;
 		case SPRUCE_SAPLING:
-			return isBigTree ? TreeType.MEGA_REDWOOD : TreeType.REDWOOD;
+			return isBigTree ? TreeType.TALL_REDWOOD : TreeType.REDWOOD;
 		case JUNGLE_SAPLING:
 			return isBigTree ? TreeType.JUNGLE : TreeType.SMALL_JUNGLE;
 		case BIRCH_SAPLING:
@@ -206,7 +228,18 @@ public class Sneakevent implements Listener {
 			
 			boolean isBigTree = (getBigTreeBlocks(block)!=null);
 			TreeType type = getTreeType(block, isBigTree);
+			
 			Block[] bigTreeBlocks = getBigTreeBlocks(block);
+			
+			// Check if this TreeType is allowed
+			if(!isTreeEnabled(type, isBigTree)) {
+				isBigTree=false;
+				bigTreeBlocks=null;
+				type = bigToSmallTree(type);
+				if(!isTreeEnabled(type,false)) {
+					return;
+				}
+			}
 			
 			if(isBigTree) {
 				for(Block b : bigTreeBlocks) {
@@ -216,6 +249,8 @@ public class Sneakevent implements Listener {
 			} else {
 				block.setType(Material.AIR);
 			}
+			
+
 			
 			
 			if(!(!isBigTree && type == TreeType.DARK_OAK)) {

@@ -9,6 +9,8 @@ Trees:
   AcaciaTree: true
   JungleTree: true
   BigOakTree: false
+  BigSpruceTree: false
+  BigJungleTree: false
   DarkOakTree: false
   RedMushroomTree: false
   BrownMushroomTree: false
