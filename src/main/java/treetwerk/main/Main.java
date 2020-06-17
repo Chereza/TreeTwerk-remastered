@@ -6,9 +6,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public class Main extends JavaPlugin {  
     
+    private static Main instance;
+    
+    public static Main getInstance()
+    {
+        return instance;
+    }
+
     private void registerCommands(String[] cmds, CommandExecutor cmdExecutor)
     {
         for (String cmd : cmds)
@@ -16,7 +22,12 @@ public class Main extends JavaPlugin {
             getCommand(cmd).setExecutor(cmdExecutor);
         }
     }
-
+    @Override
+    public void onLoad() 
+    {
+        instance = this;
+    }
+    
     public void onEnable()
     {        
     	saveDefaultConfig();
@@ -29,6 +40,9 @@ public class Main extends JavaPlugin {
         getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabled!");
         @SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this, 7882);
+        
+        treetwerk.main.Scheduler Scheduler = new treetwerk.main.Scheduler();
+        Scheduler.HashMapCleaner();
     }
 
     public void onDisable()

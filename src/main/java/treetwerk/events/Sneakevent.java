@@ -20,7 +20,9 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import treetwerk.main.Main;
 
 public class Sneakevent implements Listener {
-	public HashMap<Block, Integer> TwerkCount = new HashMap<Block, Integer>();
+	public static HashMap<Block, Integer> TwerkCount = new HashMap<Block, Integer>();
+	public static HashMap<Block, Long> LastTwerk = new HashMap<Block, Long>();
+	
 	Main main;
 
 	public Sneakevent(Main main) {
@@ -294,6 +296,7 @@ public class Sneakevent implements Listener {
 			}
 		} else {
 			TwerkCount.put(block, newtwerk);
+			//LastTwerk.put(block, System.currentTimeMillis());
 		}
 
 		if (main.getConfig().getBoolean("config.GrowingParticle")) {
