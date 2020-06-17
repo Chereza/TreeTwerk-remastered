@@ -293,7 +293,7 @@ public class Sneakevent implements Listener {
 			}
 		} else {
 			TwerkCount.put(block, newtwerk);
-			LastTwerk.put(block, System.currentTimeMillis());
+			//LastTwerk.put(block, System.currentTimeMillis());
 		}
 
 		if (main.getConfig().getBoolean("config.GrowingParticle")) {
