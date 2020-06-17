@@ -235,11 +235,12 @@ public class Sneakevent implements Listener {
 
 		int newtwerk = TwerkCount.get(block) + 1;
 		if (newtwerk >= main.getConfig().getInt("config.RequiredTwerkCount")) {
+			System.out.println("debug1");
 			
 			boolean isBigTree = (getBigTreeBlocks(block)!=null);
 			TreeType type = getTreeType(block, isBigTree);
 			if(type==null) return;
-			
+			System.out.println("debug2");
 			Block[] bigTreeBlocks = getBigTreeBlocks(block);
 			
 			// Check if this TreeType is allowed

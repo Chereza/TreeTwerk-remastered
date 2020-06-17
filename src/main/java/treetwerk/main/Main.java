@@ -1,5 +1,6 @@
 package treetwerk.main;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin {
         getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabling!");
 
         getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabled!");
+        Metrics metrics = new Metrics(this, 7882);
     }
 
     public void onDisable()
