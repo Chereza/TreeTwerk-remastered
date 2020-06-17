@@ -243,6 +243,8 @@ public class Sneakevent implements Listener {
 			System.out.println("debug2");
 			Block[] bigTreeBlocks = getBigTreeBlocks(block);
 			
+			if(type==TreeType.DARK_OAK && bigTreeBlocks==null) return;
+			
 			// Check if this TreeType is allowed
 			if(!isTreeEnabled(type, isBigTree)) {
 				System.out.println(type.name()+" (big: "+isBigTree+") is not allowed! Trying small variant...");
