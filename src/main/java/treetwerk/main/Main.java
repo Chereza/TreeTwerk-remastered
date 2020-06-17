@@ -27,7 +27,8 @@ public class Main extends JavaPlugin {
         getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabling!");
 
         getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabled!");
-        Metrics metrics = new Metrics(this, 7882);
+        @SuppressWarnings("unused")
+		Metrics metrics = new Metrics(this, 7882);
     }
 
     public void onDisable()
