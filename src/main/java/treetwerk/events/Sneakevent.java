@@ -233,10 +233,12 @@ public class Sneakevent implements Listener {
 			
 			// Check if this TreeType is allowed
 			if(!isTreeEnabled(type, isBigTree)) {
+				System.out.println(type.name()+" (big: "+isBigTree+") is not allowed! Trying small variant...");
 				isBigTree=false;
 				bigTreeBlocks=null;
 				type = bigToSmallTree(type);
 				if(!isTreeEnabled(type,false)) {
+					System.out.println(type.name()+ " is also not allowed! Quitting.");
 					return;
 				}
 			}
