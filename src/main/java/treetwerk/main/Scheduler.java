@@ -19,15 +19,17 @@ public class Scheduler
               @Override
               public void run() 
               {
-              	for (Map.Entry<Block, Integer> me : Sneakevent.TwerkCount.entrySet())
-            	{        		
-              		if (System.currentTimeMillis() > Sneakevent.LastTwerk.get(me.getKey()) + 60000)
-              		{
-              			Sneakevent.TwerkCount.remove(me.getKey());
-              			Sneakevent.LastTwerk.remove(me.getKey());
-              			org.bukkit.Bukkit.broadcastMessage(me.getKey() + " deleted");
-              		}                                                  
-            	}	              }
+            //  	for (Map.Entry<Block, Integer> me : Sneakevent.TwerkCount.entrySet())
+            //	{        		
+            //  		if (System.currentTimeMillis() > Sneakevent.LastTwerk.get(me.getKey()) + 60000)
+            //  		{
+            //  			Sneakevent.TwerkCount.remove(me.getKey());
+            //  			Sneakevent.LastTwerk.remove(me.getKey());
+            //  			org.bukkit.Bukkit.broadcastMessage(me.getKey() + " deleted");
+            //  		}                                                  
+            //	  }
+            	  Sneakevent.TwerkCount.clear();
+              	}
             }.runTaskTimer(Main.getInstance(), 20*60*3L, 20*60*3L);
     }
 }
