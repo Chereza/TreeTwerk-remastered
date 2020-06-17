@@ -104,6 +104,8 @@ public class Sneakevent implements Listener {
 			return TreeType.BIRCH;
 		case ACACIA_SAPLING:
 			return TreeType.ACACIA;
+		case DARK_OAK_SAPLING:
+			return TreeType.DARK_OAK;
 		case RED_MUSHROOM:
 			return TreeType.RED_MUSHROOM;
 		case BROWN_MUSHROOM:
@@ -172,6 +174,8 @@ public class Sneakevent implements Listener {
 		case REDWOOD:
 		case MEGA_REDWOOD:
 			return Material.SPRUCE_SAPLING;
+		case DARK_OAK:
+			return Material.DARK_OAK_SAPLING;
 		default:
 			return null;
 		}
@@ -213,20 +217,17 @@ public class Sneakevent implements Listener {
 				block.setType(Material.AIR);
 			}
 			
-			System.out.println("isBigTree: "+isBigTree);
 			
-			if(!isBigTree && type != TreeType.DARK_OAK) {
-				System.out.println("Attempting to spawn "+type.name());
+			if(!(!isBigTree && type == TreeType.DARK_OAK)) {
 				block.getWorld().generateTree(block.getLocation(), type);
 			}
 			TwerkCount.remove(block);
 
 			if (block.getType().equals(Material.AIR)) {
-				System.out.println("Spawn unsuccessfull");
 
 				Material material = getSapling(type);
 
-				/*if (material != null) {
+				if (material != null) {
 					if(isBigTree) {
 						for(Block b : bigTreeBlocks) {
 							b.setType(material);
@@ -234,7 +235,7 @@ public class Sneakevent implements Listener {
 					} else {
 						block.setType(material);
 					}
-				}*/
+				}
 			}
 		} else {
 			TwerkCount.put(block, newtwerk);
