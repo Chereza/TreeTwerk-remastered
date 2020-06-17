@@ -235,28 +235,28 @@ public class Sneakevent implements Listener {
 
 		int newtwerk = TwerkCount.get(block) + 1;
 		if (newtwerk >= main.getConfig().getInt("config.RequiredTwerkCount")) {
-			System.out.println("debug1");
+			//System.out.println("debug1");
 			
 			boolean isBigTree = (getBigTreeBlocks(block)!=null);
 			TreeType type = getTreeType(block, isBigTree);
 			if(type==null) return;
-			System.out.println("debug2");
+			//System.out.println("debug2");
 			Block[] bigTreeBlocks = getBigTreeBlocks(block);
 			
 			if(type==TreeType.DARK_OAK && bigTreeBlocks==null) return;
-			System.out.println(type);
-			System.out.println(bigTreeBlocks==null ? "null" : "nonnull");
-			System.out.println("debug3");
+			//System.out.println(type);
+			//System.out.println(bigTreeBlocks==null ? "null" : "nonnull");
+			//System.out.println("debug3");
 			
 			// Check if this TreeType is allowed
 			if(!isTreeEnabled(type, isBigTree)) {
-				System.out.println(type.name()+" (big: "+isBigTree+") is not allowed! Trying small variant...");
+				//System.out.println(type.name()+" (big: "+isBigTree+") is not allowed! Trying small variant...");
 				isBigTree=false;
 				bigTreeBlocks=null;
 				type = bigToSmallTree(type);
 				if(type==null) return;
 				if(!isTreeEnabled(type,false)) {
-					System.out.println(type.name()+ " is also not allowed! Quitting.");
+					//System.out.println(type.name()+ " is also not allowed! Quitting.");
 					return;
 				}
 			}
