@@ -35,9 +35,12 @@ public class Sneakevent implements Listener {
 
 		case REDWOOD:
 			return main.getConfig().getBoolean("Trees.SpruceTree");
+			
+		case SMALL_JUNGLE:
+			return main.getConfig().getBoolean("Trees.JungleTree");
 
 		case JUNGLE:
-			return isBigTree ? main.getConfig().getBoolean("Trees.BigJungleTree") : main.getConfig().getBoolean("Trees.JungleTree");
+			return main.getConfig().getBoolean("Trees.BigJungleTree");
 
 		case BIRCH:
 			return main.getConfig().getBoolean("Trees.BirchTree");
@@ -228,6 +231,7 @@ public class Sneakevent implements Listener {
 			
 			boolean isBigTree = (getBigTreeBlocks(block)!=null);
 			TreeType type = getTreeType(block, isBigTree);
+			if(type==null) return;
 			
 			Block[] bigTreeBlocks = getBigTreeBlocks(block);
 			
@@ -237,6 +241,7 @@ public class Sneakevent implements Listener {
 				isBigTree=false;
 				bigTreeBlocks=null;
 				type = bigToSmallTree(type);
+				if(type==null) return;
 				if(!isTreeEnabled(type,false)) {
 					System.out.println(type.name()+ " is also not allowed! Quitting.");
 					return;
