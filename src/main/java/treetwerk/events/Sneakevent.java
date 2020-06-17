@@ -213,16 +213,20 @@ public class Sneakevent implements Listener {
 				block.setType(Material.AIR);
 			}
 			
+			System.out.println("isBigTree: "+isBigTree);
+			
 			if(!isBigTree && type != TreeType.DARK_OAK) {
+				System.out.println("Attempting to spawn "+type.name());
 				block.getWorld().generateTree(block.getLocation(), type);
 			}
 			TwerkCount.remove(block);
 
 			if (block.getType().equals(Material.AIR)) {
+				System.out.println("Spawn unsuccessfull");
 
 				Material material = getSapling(type);
 
-				if (material != null) {
+				/*if (material != null) {
 					if(isBigTree) {
 						for(Block b : bigTreeBlocks) {
 							b.setType(material);
@@ -230,7 +234,7 @@ public class Sneakevent implements Listener {
 					} else {
 						block.setType(material);
 					}
-				}
+				}*/
 			}
 		} else {
 			TwerkCount.put(block, newtwerk);
