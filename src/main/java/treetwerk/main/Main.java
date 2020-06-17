@@ -22,7 +22,12 @@ public class Main extends JavaPlugin {
             getCommand(cmd).setExecutor(cmdExecutor);
         }
     }
-
+    @Override
+    public void onLoad() 
+    {
+        instance = this;
+    }
+    
     public void onEnable()
     {        
     	saveDefaultConfig();
