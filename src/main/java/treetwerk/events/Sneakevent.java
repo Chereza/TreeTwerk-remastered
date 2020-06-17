@@ -122,7 +122,7 @@ public class Sneakevent implements Listener {
 		case OAK_SAPLING:
 			return TreeType.TREE;
 		case SPRUCE_SAPLING:
-			return isBigTree ? TreeType.TALL_REDWOOD : TreeType.REDWOOD;
+			return isBigTree ? TreeType.MEGA_REDWOOD : TreeType.REDWOOD;
 		case JUNGLE_SAPLING:
 			return isBigTree ? TreeType.JUNGLE : TreeType.SMALL_JUNGLE;
 		case BIRCH_SAPLING:
