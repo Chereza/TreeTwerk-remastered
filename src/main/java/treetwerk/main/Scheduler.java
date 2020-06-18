@@ -1,12 +1,12 @@
 package treetwerk.main;
 
-import java.io.File;
-import java.util.Map;
+//import java.io.File;
+//import java.util.Map;
 
-import org.bukkit.block.Block;
+//import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import treetwerk.events.Sneakevent;
+import treetwerk.events.SneakEvent;
 
 
 public class Scheduler 
@@ -28,7 +28,7 @@ public class Scheduler
             //  			org.bukkit.Bukkit.broadcastMessage(me.getKey() + " deleted");
             //  		}                                                  
             //	  }
-            	  Sneakevent.TwerkCount.clear();
+            	  SneakEvent.TwerkCount.clear();
               	}
             }.runTaskTimer(Main.getInstance(), 20*60*3L, 20*60*3L);
     }
