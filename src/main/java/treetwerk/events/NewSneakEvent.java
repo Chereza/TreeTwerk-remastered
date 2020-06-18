@@ -1,5 +1,7 @@
 package treetwerk.events;
 
+import treetwerk.events.TreeConfigChecker; 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,6 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.permissions.Permission;
 
 import treetwerk.main.Main;
 
@@ -43,6 +46,7 @@ public class NewSneakEvent
 	private ArrayList<Block> getNearbySaplings(Player player) {
 		ArrayList<Block> saplings = new ArrayList<Block>();
 		int range = main.getConfig().getInt("config.RangeForShifting");
+		
 		for (int x = player.getLocation().getBlockX() - range; x <= player.getLocation().getBlockX() + range; x++) {
 			for (int y = player.getLocation().getBlockY() - range; y <= player.getLocation().getBlockY() + range; y++) {
 				for (int z = player.getLocation().getBlockZ() - range; z <= player.getLocation().getBlockZ()
@@ -87,13 +91,13 @@ public class NewSneakEvent
 			//System.out.println("debug3");
 			
 			// Check if this TreeType is allowed
-			if(!isTreeEnabled(type, isBigTree)) {
+			if(!isTreeEnabled(type, isBigTree, player)) {
 				//System.out.println(type.name()+" (big: "+isBigTree+") is not allowed! Trying small variant...");
 				isBigTree=false;
 				bigTreeBlocks=null;
 				type = bigToSmallTree(type);
 				if(type==null) return;
-				if(!isTreeEnabled(type,false)) {
+				if(!isTreeEnabled(type,false, player)) {
 					//System.out.println(type.name()+ " is also not allowed! Quitting.");
 					return;
 				}
@@ -244,45 +248,18 @@ public class NewSneakEvent
 		}
 	}
 	
-	private boolean isTreeEnabled(TreeType type, boolean isBigTree) {
+	private boolean isTreeEnabled(TreeType type, boolean isBigTree, Player player) 
+	{
+		boolean check = false;
 
-		switch (type) {
-		case TREE:
-			return main.getConfig().getBoolean("Trees.OakTree");
+		treetwerk.events.TreeConfigChecker checker = treetwerk.events.TreeConfigChecker();
+		
+		if (main.getConfig().getBoolean("config.permissionSet"))
+			check = checker.treePermissionChecker(player, type);
+		else if (!(main.getConfig().getBoolean("config.permissionSet")))
+			check = checker.treeConfigChecker(type);
 
-		case REDWOOD:
-			return main.getConfig().getBoolean("Trees.SpruceTree");
-			
-		case SMALL_JUNGLE:
-			return main.getConfig().getBoolean("Trees.JungleTree");
-
-		case JUNGLE:
-			return main.getConfig().getBoolean("Trees.BigJungleTree");
-
-		case BIRCH:
-			return main.getConfig().getBoolean("Trees.BirchTree");
-
-		case ACACIA:
-			return main.getConfig().getBoolean("Trees.AcaciaTree");
-
-		case RED_MUSHROOM:
-			return main.getConfig().getBoolean("Trees.RedMushroomTree");
-
-		case BROWN_MUSHROOM:
-			return main.getConfig().getBoolean("Trees.BrownMushroomTree");
-			
-		case BIG_TREE:
-			return main.getConfig().getBoolean("Trees.BigOakTree");
-			
-		case MEGA_REDWOOD:
-			return main.getConfig().getBoolean("Trees.BigSpruceTree");
-			
-		case DARK_OAK:
-			return main.getConfig().getBoolean("Trees.DarkOakTree");
-
-		default:
-			return false;
-		}
+		return check;
 	}
 	
 	// A big tree has to be spawned at the lowest X and lowest Z coordinates of the 4 saplings
