@@ -22,63 +22,51 @@ public class TreeConfigChecker
 		{
 			case TREE:
 			{
-				if (player.hasPermission("treetwerk.trees.OakTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.OakTree"));
 			}					
 			case BIG_TREE:
 			{
-				if (player.hasPermission("treetwerk.trees.BigOakTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.BigOakTree"));
 			}
 			case ACACIA:
 			{
-				if (player.hasPermission("treetwerk.trees.AcaciaTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.AcaciaTree"));
 			}			
 			case BIRCH:
 			{
-				if (player.hasPermission("treetwerk.trees.BirchTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.BirchTree"));
 			}		
 			case SMALL_JUNGLE:
 			{
-				if (player.hasPermission("treetwerk.trees.JungleTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.JungleTree"));
 			}		
 			case JUNGLE:
 			{
-				if (player.hasPermission("treetwerk.trees.BigJungleTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.BigJungleTree"));
 			}		
 			case DARK_OAK:
 			{
-				if (player.hasPermission("treetwerk.trees.DarkOakTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.DarkOakTree"));
 			}
 			case REDWOOD:
 			{
-				if (player.hasPermission("treetwerk.trees.SpruceTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.SpruceTree"));
 			}	
 			case MEGA_REDWOOD:
 			{
-				if (player.hasPermission("treetwerk.trees.BigSpruceTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.BigSpruceTree"));
 			}
 			case TALL_REDWOOD:
 			{
-				if (player.hasPermission("treetwerk.trees.TallSpruceTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.TallSpruceTree"));
 			}			
 			case RED_MUSHROOM:
 			{
-				if (player.hasPermission("treetwerk.trees.RedMushroomTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.RedMushroomTree"));
 			}
 			case BROWN_MUSHROOM:
 			{
-				if (player.hasPermission("treetwerk.trees.BrownMushroomTree"))
-					permission = true;
+                return(player.hasPermission("treetwerk.trees.BrownMushroomTree"));
 			}			
 			default:
 				permission = false;

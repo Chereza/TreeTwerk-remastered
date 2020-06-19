@@ -22,7 +22,7 @@ public class Event implements Listener
 		if (!(e.isSneaking()))
 			return;
 		
-		treetwerk.events.SneakEvent sneakEvent = new treetwerk.events.SneakEvent(main);
+		treetwerk.events.NewSneakEvent sneakEvent = new treetwerk.events.NewSneakEvent(main);
 		sneakEvent.PlayerSneakEvent(e);	
 	}
 	
