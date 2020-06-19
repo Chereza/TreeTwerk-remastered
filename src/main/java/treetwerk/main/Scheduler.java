@@ -28,7 +28,7 @@ public class Scheduler
             //  			org.bukkit.Bukkit.broadcastMessage(me.getKey() + " deleted");
             //  		}                                                  
             //	  }
-            	  SneakEvent.TwerkCount.clear();
+            	  NewSneakEvent.TwerkCount.clear();
               	}
             }.runTaskTimer(Main.getInstance(), 20*60*3L, 20*60*3L);
     }
