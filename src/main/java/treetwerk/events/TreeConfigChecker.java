@@ -90,42 +90,55 @@ public class TreeConfigChecker
 	public Boolean treeConfigChecker(TreeType type)
 	{
 		boolean check = false;
-		switch (type) {
-		case TREE:
+		switch (type) 
+		{
+		case TREE:	
 			check = main.getConfig().getBoolean("Trees.OakTree");
+			break;
 
 		case REDWOOD:
 			check = main.getConfig().getBoolean("Trees.SpruceTree");
-			
+			break;
+
 		case SMALL_JUNGLE:
 			check = main.getConfig().getBoolean("Trees.JungleTree");
+			break;
 
 		case JUNGLE:
 			check = main.getConfig().getBoolean("Trees.BigJungleTree");
+			break;
 
 		case BIRCH:
 			check = main.getConfig().getBoolean("Trees.BirchTree");
+			break;
 
 		case ACACIA:
 			check = main.getConfig().getBoolean("Trees.AcaciaTree");
+			break;
 
 		case RED_MUSHROOM:
 			check = main.getConfig().getBoolean("Trees.RedMushroomTree");
+			break;
 
 		case BROWN_MUSHROOM:
 			check = main.getConfig().getBoolean("Trees.BrownMushroomTree");
-			
+			break;
+
 		case BIG_TREE:
 			check = main.getConfig().getBoolean("Trees.BigOakTree");
-			
+			break;
+
 		case MEGA_REDWOOD:
 			check = main.getConfig().getBoolean("Trees.BigSpruceTree");
+			break;
 			
 		case DARK_OAK:
 			check = main.getConfig().getBoolean("Trees.DarkOakTree");
+			break;
 
 		default:
 			check = false;
+			break;
 		}	
 		return check;
 	}
