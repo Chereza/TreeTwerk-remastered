@@ -6,7 +6,7 @@ package treetwerk.main;
 //import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import treetwerk.events.SneakEvent;
+import treetwerk.events.NewSneakEvent;
 
 
 public class Scheduler 
