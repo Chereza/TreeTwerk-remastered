@@ -1,7 +1,5 @@
 package treetwerk.events;
 
-import treetwerk.events.TreeConfigChecker; 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +13,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.permissions.Permission;
 
 import treetwerk.main.Main;
 
@@ -252,7 +249,7 @@ public class NewSneakEvent
 	{
 		boolean check = false;
 
-		treetwerk.events.TreeConfigChecker checker = treetwerk.events.TreeConfigChecker();
+		treetwerk.events.TreeConfigChecker checker = new treetwerk.events.TreeConfigChecker(main);
 		
 		if (main.getConfig().getBoolean("config.permissionSet"))
 			check = checker.treePermissionChecker(player, type);
