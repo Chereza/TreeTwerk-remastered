@@ -13,22 +13,34 @@ import org.bukkit.TreeType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import treetwerk.main.Main;
 
-public class Sneakevent implements Listener {
+public class SneakEvent 
+{
 	public static HashMap<Block, Integer> TwerkCount = new HashMap<Block, Integer>();
 	public static HashMap<Block, Long> LastTwerk = new HashMap<Block, Long>();
 	
 	Main main;
 
-	public Sneakevent(Main main) {
+	public SneakEvent(Main main) 
+	{
 		this.main = main;
 	}
 
+	public void PlayerSneakEvent(PlayerToggleSneakEvent e) {
+
+		ArrayList<Block> blocks = getNearbySaplings(e.getPlayer());
+
+		for (Block block : blocks) {
+
+			GrowTree(block, e.getPlayer());
+
+		}
+
+	}
+	
 	private boolean isTreeEnabled(TreeType type, boolean isBigTree) {
 
 		switch (type) {
@@ -82,22 +94,6 @@ public class Sneakevent implements Listener {
 		default:
 			return null;
 		}
-	}
-
-	@EventHandler
-	public void PlayerEvent(PlayerToggleSneakEvent e) {
-
-		if (!(e.isSneaking()))
-			return;
-
-		ArrayList<Block> blocks = getNearbySaplings(e.getPlayer());
-
-		for (Block block : blocks) {
-
-			GrowTree(block, e.getPlayer());
-
-		}
-
 	}
 
 	private ArrayList<Block> getNearbySaplings(Player player) {

@@ -3,6 +3,7 @@ config:
   RangeForShifting: 5 # default: 5
   GrowingParticle: true 
   MushroomTreesOnlyOnMycelium: true
+  permissionSet = false # true for working with permission
 Trees:
   OakTree: true
   SpruceTree: true

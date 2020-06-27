@@ -8,6 +8,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {  
     
+	UpdateChecker updateChecker;
+
     private static Main instance;
     
     public static Main getInstance()
@@ -29,20 +31,31 @@ public class Main extends JavaPlugin {
     }
     
     public void onEnable()
-    {        
+    {               
+    	getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabling!");
+    	
     	saveDefaultConfig();
-        Bukkit.getPluginManager().registerEvents(new treetwerk.events.Sneakevent(this), this);
+        Bukkit.getPluginManager().registerEvents(new treetwerk.main.Event(this), this);
+        
         registerCommands(new String[]{ "TreeTwerk" }, new treetwerk.main.Commands(this));
 
-        
-        getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabling!");
-
-        getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabled!");
         @SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this, 7882);
         
         treetwerk.main.Scheduler Scheduler = new treetwerk.main.Scheduler();
         Scheduler.HashMapCleaner();
+        
+        getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk is enabled!");
+        
+        new UpdateChecker(this, 80213).getVersion(version -> 
+        {
+            if (this.getDescription().getVersion().equalsIgnoreCase(version)) 
+            {
+                getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk: " + ChatColor.YELLOW + "There is not a new update available.");
+            } else {
+                getLogger().info(ChatColor.DARK_PURPLE + "TreeTwerk: " + ChatColor.RED + "There is a new update available.");
+            }
+        });
     }
 
     public void onDisable()
